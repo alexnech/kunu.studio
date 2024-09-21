@@ -268,7 +268,7 @@ figcaption {
 .layout5_component {
   justify-content: center;
   align-items: center;
-  height: 75vh;
+  height: 100vh;
 }
 
 .form_input {
@@ -3684,6 +3684,10 @@ figcaption {
   font-size: 4rem;
   font-weight: 700;
   line-height: 1.1;
+}
+
+.heading-style-h1.text-style-allcaps {
+  font-family: PT Serif, serif;
 }
 
 .heading-style-h1.text-style-allcaps.text-color-white {
