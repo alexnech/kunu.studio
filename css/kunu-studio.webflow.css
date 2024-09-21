@@ -3721,6 +3721,12 @@ figcaption {
   color: var(--primary_dark);
 }
 
+.hero_bg {
+  justify-content: center;
+  align-items: center;
+  height: 75vh;
+}
+
 @media screen and (max-width: 991px) {
   .text-size-large {
     font-size: 1.5rem;
@@ -4870,6 +4876,10 @@ figcaption {
     left: 1rem;
   }
 
+  .social_icon {
+    color: var(--primary_dark);
+  }
+
   .layout13_component {
     grid-template-columns: 1fr;
     justify-items: start;
@@ -5049,6 +5059,10 @@ figcaption {
 
   .heading-style-h1 {
     font-size: 2.5rem;
+  }
+
+  .hero_bg {
+    height: 32rem;
   }
 }
 
