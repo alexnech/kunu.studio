@@ -6100,6 +6100,9 @@
       };
       var getPluginDestination2 = (actionItemConfig) => actionItemConfig.value.inputs ?? {};
       var createPluginInstance3 = (element, actionItem) => {
+        const selectorGuids = actionItem.config?.target?.selectorGuids || [];
+        if (selectorGuids.length > 0)
+          return element;
         const pluginElementId = actionItem?.config?.target?.pluginElement;
         return pluginElementId ? queryContainerElement(pluginElementId) : null;
       };
@@ -10660,7 +10663,11 @@
       const actionGroups = instanceActionGroups[key];
       const actionItem = (0, import_get2.default)(actionGroups, `[0].actionItems[0]`, {});
       const { actionTypeId } = actionItem;
-      const pluginInstance = isPluginType2(actionTypeId) ? createPluginInstance2(actionTypeId)(element, actionItem) : null;
+      const shouldUsePlugin = (
+        // If it's targeted by class, don't query the element by pluginElementId
+        actionTypeId === ActionTypeConsts.PLUGIN_RIVE ? (actionItem.config?.target?.selectorGuids || []).length === 0 : isPluginType2(actionTypeId)
+      );
+      const pluginInstance = shouldUsePlugin ? createPluginInstance2(actionTypeId)(element, actionItem) : null;
       const destination = getDestinationValues2(
         { element, actionItem, elementApi: IX2BrowserApi_exports },
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -12167,7 +12174,21 @@
     "packages/shared/render/plugins/Form/webflow-forms.js"(exports, module) {
       "use strict";
       var Webflow = require_webflow_lib();
+      var renderTurnstileCaptcha = (siteKey, formElement, cb, errorCallback) => {
+        const captchaContainer = document.createElement("div");
+        formElement.appendChild(captchaContainer);
+        turnstile.render(captchaContainer, {
+          sitekey: siteKey,
+          callback: function(token) {
+            cb(token);
+          },
+          "error-callback": function() {
+            errorCallback();
+          }
+        });
+      };
       Webflow.define("forms", module.exports = function($, _) {
+        const TURNSTILE_LOADED_EVENT = "TURNSTILE_LOADED";
         var api = {};
         var $doc = $(document);
         var $forms;
@@ -12182,11 +12203,14 @@
         var listening;
         var formUrl;
         var signFileUrl;
+        const turnstileSiteKey = $doc.find("[data-turnstile-sitekey]").data("turnstile-sitekey");
+        let turnstileScript;
         var chimpRegex = /list-manage[1-9]?.com/i;
         var disconnected = _.debounce(function() {
           alert("Oops! This page has improperly configured forms. Please contact your website administrator to fix this issue.");
         }, 100);
         api.ready = api.design = api.preview = function() {
+          loadTurnstileScript();
           init();
           if (!inApp && !listening) {
             addListeners();
@@ -12205,6 +12229,16 @@
           }
           $forms.each(build);
         }
+        function loadTurnstileScript() {
+          if (turnstileSiteKey) {
+            turnstileScript = document.createElement("script");
+            turnstileScript.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+            document.head.appendChild(turnstileScript);
+            turnstileScript.onload = () => {
+              $doc.trigger(TURNSTILE_LOADED_EVENT);
+            };
+          }
+        }
         function build(i, el) {
           var $el = $(el);
           var data = $.data(el, namespace);
@@ -12221,6 +12255,18 @@
           data.fileUploads.each(function(j) {
             initFileUpload(j, data);
           });
+          if (turnstileSiteKey) {
+            data.wait = false;
+            disableBtn(data);
+            $doc.on(typeof turnstile !== "undefined" ? "ready" : TURNSTILE_LOADED_EVENT, function() {
+              renderTurnstileCaptcha(turnstileSiteKey, el, (token) => {
+                data.turnstileToken = token;
+                reset(data);
+              }, () => {
+                disableBtn(data);
+              });
+            });
+          }
           var formName = data.form.attr("aria-label") || data.form.attr("data-name") || "Form";
           if (!data.done.attr("aria-label")) {
             data.form.attr("aria-label", formName);
@@ -12303,7 +12349,7 @@
           var btn = data.btn = data.form.find(':input[type="submit"]');
           data.wait = data.btn.attr("data-wait") || null;
           data.success = false;
-          btn.prop("disabled", false);
+          btn.prop("disabled", Boolean(turnstileSiteKey && !data.turnstileToken));
           data.label && btn.val(data.label);
         }
         function disableBtn(data) {
