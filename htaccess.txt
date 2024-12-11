@@ -1,0 +1,7 @@
+Redirect 301 /projektai /
+Redirect 301 /sokio-terapija /klases/sokio-terapija
+Redirect 301 /privacios-sokio-pamokos-ir-choreografija klases /privacios-sokio-pamokos
+Redirect 301 /baleto-pamokos /klases/baleto-pamokos
+Redirect 301 /siuolaikinio-sokio-pamokos /klases/siuolaikinio-sokio-pamokos
+Redirect 301 /sokio-pamokos-vaikuciams /klases/sokio-pamokos-vaikuciams
+Redirect 301 /gimnastikos-treniruotes /klases/gimnastikos-treniruotes
