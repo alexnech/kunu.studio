@@ -6590,7 +6590,15 @@ figure {
 }
 
 .background-3.one {
-  background-image: none;
+  background-image: url('../images/6746a160115d4cae431bdd3f_Banner-3-1.jpg');
+}
+
+.background-3.two {
+  background-image: url('../images/6746a160115d4cae431bdcde_Banner-3-2.jpg');
+}
+
+.background-3.three {
+  background-image: url('../images/6746a160115d4cae431bdd57_Classes-3.jpg');
 }
 
 .boxed-intro {
@@ -7388,7 +7396,7 @@ figure {
 }
 
 .background-april.one {
-  background-image: url('../images/Glasi-25-1_1Glasi 25 (1).webp');
+  background-image: url('../images/6746a160115d4cae431bdcde_Banner-3-2.jpg');
 }
 
 .project-grey-cover {
@@ -9322,6 +9330,7 @@ figure {
 
 .work-title.black-title {
   color: var(--primary-black);
+  line-height: 1.3em;
 }
 
 .work-title.light-black-title {
@@ -12346,8 +12355,9 @@ figure {
   grid-template-rows: 1fr;
   grid-template-columns: 1fr 1fr;
   grid-auto-columns: 1fr;
+  min-height: 600px;
   margin: -.5px;
-  padding: 0;
+  padding: 20px;
   display: grid;
   position: relative;
 }
@@ -19205,11 +19215,11 @@ figure {
   align-self: center;
 }
 
-#w-node-_76b6d0d3-22ec-9e82-252e-961dbd24b456-431bdb82 {
+#w-node-b10566e5-96f8-834d-eee0-44cdabe676bd-431bdb82 {
   grid-area: 1 / 2 / 2 / 3;
 }
 
-#w-node-_76b6d0d3-22ec-9e82-252e-961dbd24b457-431bdb82 {
+#w-node-b10566e5-96f8-834d-eee0-44cdabe676be-431bdb82 {
   place-self: center;
 }
 
