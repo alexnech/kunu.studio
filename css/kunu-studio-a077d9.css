@@ -7033,10 +7033,18 @@ figure {
   line-height: .9em;
 }
 
+._404-title.text-white-2 {
+  font-size: 60px;
+}
+
 .error-404-text {
   text-align: center;
   margin-top: 0;
   margin-bottom: 0;
+}
+
+.error-404-text.text-white {
+  font-size: 25px;
 }
 
 .brand-logo-2 {
