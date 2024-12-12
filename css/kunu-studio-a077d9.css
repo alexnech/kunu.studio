@@ -4185,7 +4185,7 @@ figure {
 .form-input {
   border: 1px solid var(--light-black);
   letter-spacing: .1em;
-  text-transform: uppercase;
+  text-transform: none;
   background-color: #fff0;
   border-radius: 100px;
   height: 45px;
